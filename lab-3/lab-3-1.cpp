@@ -18,6 +18,10 @@ struct Grade {
     char R;
 };
 
+inline void hr() {
+    cout << "-------------------------------------------------------" << endl;
+}
+
 void input_students(Student *S) {
 
     int random;
@@ -89,7 +93,7 @@ void input_grades(Grade *G, Student *S) {
 
 void list_grades(Grade *G) {
 
-    cout << "-------------------------------------------------------" << endl;
+    hr();
 
     cout << left
          << setw(6) << "Code"
