@@ -3,166 +3,126 @@
 #include <cstdlib>
 using namespace std;
 
-struct Address {
-    string name; 
-    char area;
-    int num;
-    int item; 
+struct Student {
+    int Code; 
+    string Class;
+    string Name; 
 };
 
-void input(Address *A) {
-    int random, temp = 0;
+struct Grade {
+    int Code;
+    string Date;
+    int A;
+    int B;
+    int C;
+    char R;
+};
+
+void input_students(Student *S) {
+
+    int random;
+
+    for(int i = 0; i < 5; i++) {
+
+        random = rand() % 90 + 10;
+        S[i].Code = random;
+
+        S[i].Class = 49;
+        random = rand() % 4 + 97;
+        S[i].Class += random;
+
+        random = rand() % 26 + 65;
+        S[i].Name = random;
+
+        for(int j = 0; j < 3; j++) {
+
+            random = rand() % 10 + 48;
+            S[i].Name += random;
+        }
+    }
+}
+
+void list_students(Student *S) {
+
+    cout << left
+         << setw(6) << "Code"
+         << setw(6) << "Class"
+         << setw(6) << "Name" << endl;
+
+    for(int i = 0; i < 5; i++) {
+        cout << left
+             << setw(6) << S[i].Code
+             << setw(6) << S[i].Class
+             << setw(6) << S[i].Name << endl;
+    }
+}
+
+void input_grades(Grade *G, Student *S) {
+
+    int random;
 
     for(int i = 0; i < 10; i++) {
 
-        while(temp == 0) {
+        G[i].Code = S[rand() % 5].Code;
 
-            random = rand() % 91;
-            if(random > 64) {
-                A[i].name = random;
-                temp = 1;
-            }
+        G[i].Date = "07";
+        random = rand() % 31 + 1;
+        G[i].Date += random / 10 + 48;
+        G[i].Date += random % 10 + 48;
 
-        }
-        temp = 0;
+        random = rand() % 100;
+        G[i].A = random;
 
-        while(temp < 3) {
+        random = rand() % 100;
+        G[i].B = random;
 
-            random = rand() % 58;
-            if(random > 47) {
-                A[i].name += random;
-                temp++;
-            }
-
-        }
-        temp = 0;
+        random = rand() % 100;
+        G[i].C = random;
 
         if(rand() % 2 == 0) 
-            A[i].area = 85;
+            G[i].R = 71;
         else
-            A[i].area = 82;
+            G[i].R = 66;
 
-        while(temp == 0) {
-
-            random = rand() % 2501;
-            if(random > 99) {
-                A[i].num = random;
-                temp = 1;
-            }
-
-        }
-        temp = 0;
-
-        A[i].item = rand() % 4 + 1;
     }
 }
 
-void list(Address *A) {
-
-    cout << left
-         << setw(5) << "Name"
-         << setw(5) << "Num"
-         << setw(5) << "Area"
-         << setw(5) << "Item" << endl;
-
-    for(int i = 0; i < 10; i++) {
-        cout << left
-             << setw(5) << A[i].name
-             << setw(5) << A[i].num
-             << setw(5) << A[i].area
-             << setw(5) << A[i].item << endl;
-    }
-}
-
-void ur_item(Address *A) {
-
-    int a[2][5] = {0};
-    char ur[2] = {85, 82};
-
-    for(int i = 0; i < 10; i++) {
-
-        if(A[i].area == 85) {
-            a[0][A[i].item - 1]++;
-            a[0][4]++;
-        } else {
-            a[1][A[i].item - 1]++;
-            a[1][4]++;
-        }
-    }
+void list_grades(Grade *G) {
 
     cout << "-------------------------------------------------------" << endl;
 
     cout << left
-         << setw(5) << "Area"
-         << setw(5) << "1"
-         << setw(5) << "2"
-         << setw(5) << "3"
-         << setw(5) << "4"
-         << setw(5) << "Total" << endl;
+         << setw(6) << "Code"
+         << setw(6) << "Date"
+         << setw(6) << "A"
+         << setw(6) << "B"
+         << setw(6) << "C"
+         << setw(6) << "R" << endl;
 
-    for(int i = 0; i < 2; i++) {
+    for(int i = 0; i < 10; i++) {
         cout << left
-             << setw(5) << ur[i]
-             << setw(5) << a[i][0]
-             << setw(5) << a[i][1]
-             << setw(5) << a[i][2]
-             << setw(5) << a[i][3]
-             << setw(5) << a[i][4] << endl;
-    }
-}
-
-void ur_num(Address *A) {
-
-    int a[2][4] = {0};
-    char ur[2] = {85, 82};
-
-    for(int i = 0, temp = 1; i < 10; i++) {
-
-        if(A[i].area == 85) 
-            temp = 0;
-        
-        if(A[i].num < 1000) 
-            a[temp][0]++;
-        else if(A[i].num < 2000)
-            a[temp][1]++;
-        else if(A[i].num > 2000)
-            a[temp][2]++;
-
-        a[temp][3]++;
-
-        temp = 1;
-    }
-
-    cout << "-------------------------------------------------------" << endl;
-
-    cout << left
-         << setw(5) << "Area"
-         << setw(5) << "A"
-         << setw(5) << "B"
-         << setw(5) << "C"
-         << setw(5) << "Total" << endl;
-
-    for(int i = 0; i < 2; i++) {
-        cout << left
-             << setw(5) << ur[i]
-             << setw(5) << a[i][0]
-             << setw(5) << a[i][1]
-             << setw(5) << a[i][2]
-             << setw(5) << a[i][3] << endl;
+             << setw(6) << G[i].Code
+             << setw(6) << G[i].Date
+             << setw(6) << G[i].A
+             << setw(6) << G[i].B
+             << setw(6) << G[i].C
+             << setw(6) << G[i].R << endl;
     }
 }
 
 int main() {
 
-    Address A[10];
+    Student S[5];
 
-    input(A);
+    Grade G[10];
 
-    list(A);
+    input_students(S);
 
-    ur_item(A);
+    list_students(S);
 
-    ur_num(A);
+    input_grades(G, S);
+
+    list_grades(G);
 
     return 0;
 }
