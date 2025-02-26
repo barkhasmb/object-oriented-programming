@@ -18,6 +18,14 @@ struct Grade {
     char R;
 };
 
+struct Success {
+    int Code;
+    string Name;
+    int G;
+    int B;
+    int Total;
+};
+
 inline void hr() {
     cout << "-------------------------------------------------------" << endl;
 }
@@ -25,6 +33,8 @@ inline void hr() {
 void input_students(Student *S) {
 
     int random;
+
+    string school[3] = {"S114", "U007", "C089"};
 
     for(int i = 0; i < 5; i++) {
 
@@ -35,14 +45,8 @@ void input_students(Student *S) {
         random = rand() % 4 + 97;
         S[i].Class += random;
 
-        random = rand() % 26 + 65;
-        S[i].Name = random;
-
-        for(int j = 0; j < 3; j++) {
-
-            random = rand() % 10 + 48;
-            S[i].Name += random;
-        }
+        random = rand() % 3;
+        S[i].Name = school[random];
     }
 }
 
@@ -114,11 +118,109 @@ void list_grades(Grade *G) {
     }
 }
 
+void success_by_code(Student *S, Grade *G, Success *Su) {
+
+    for(int i = 0; i < 5; i++) {
+
+        Su[i].Code = S[i].Code;
+        Su[i].Name = S[i].Name;
+        Su[i].G = 0;
+        Su[i].B = 0;
+        Su[i].Total = 0;
+
+        for(int j = 0; j < 10; j++) {
+
+            if(Su[i].Code == G[j].Code) {
+                if(G[j].R == 71) 
+                    Su[i].G++;
+                else 
+                    Su[i].B++;
+                Su[i].Total++;
+            }
+        }
+    }
+
+    float ratio;
+
+    hr();
+
+    cout << left
+         << setw(6) << "Code"
+         << setw(6) << "G"
+         << setw(6) << "B"
+         << setw(6) << "Total"
+         << setw(6) << "%" << endl;
+
+    for(int i = 0; i < 5; i++) {
+        ratio = Su[i].G * 100;
+        ratio /= Su[i].Total;
+        cout << left
+             << setw(6) << Su[i].Code
+             << setw(6) << Su[i].G
+             << setw(6) << Su[i].B
+             << setw(6) << Su[i].Total
+             << setw(6) << ratio << endl;
+    }
+}
+
+void success_by_name(Success *Su) {
+
+    int table_count = 0;
+    string table_name[5];
+    int table_data[5][3];
+    bool match = false;
+
+    for(int i = 0; i < 5; i++, match = false) {
+
+        for(int j = 0; j < table_count; j++) {
+
+            if(table_name[j] == Su[i].Name) {
+                match = true;
+                table_data[j][0] += Su[i].G;
+                table_data[j][1] += Su[i].B;
+                table_data[j][2] += Su[i].Total;
+            }
+        }
+
+        if(match == false) {
+            table_name[table_count] = Su[i].Name;
+            table_data[table_count][0] = Su[i].G;
+            table_data[table_count][1] = Su[i].B;
+            table_data[table_count][2] = Su[i].Total;
+            table_count++;
+        }
+    }
+
+    float ratio;
+
+    hr();
+
+    cout << left
+         << setw(6) << "Name"
+         << setw(6) << "G"
+         << setw(6) << "B"
+         << setw(6) << "Total"
+         << setw(6) << "%" << endl;
+
+    for(int i = 0; i < table_count; i++) {
+        ratio = table_data[i][0] * 100;
+        ratio /= table_data[i][2];
+        cout << left
+             << setw(6) << table_name[i]
+             << setw(6) << table_data[i][0]
+             << setw(6) << table_data[i][1]
+             << setw(6) << table_data[i][2]
+             << setw(6) << ratio << endl;
+    }
+}
+
 int main() {
 
     Student S[5];
 
     Grade G[10];
+
+    Success Su[5];
 
     input_students(S);
 
@@ -127,6 +229,10 @@ int main() {
     input_grades(G, S);
 
     list_grades(G);
+
+    success_by_code(S, G, Su);
+
+    success_by_name(Su);
 
     return 0;
 }
