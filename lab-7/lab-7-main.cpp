@@ -2,6 +2,14 @@
 #include "myClasses.cpp"
 using namespace std;
 
+inline void hr() {
+    cout << "-------------------------------------------------------" << endl;
+}
+
+inline void lb() {
+    cout << endl;
+}
+
 int main() {
     Computer *pc1 = new Computer("Intel i7");
     Computer *pc2 = new Computer("AMD");
@@ -14,9 +22,20 @@ int main() {
     class1.addComputer(pc2);
     class1.addComputer(pc3);
 
+    hr();
+    class1.printComputers();
+    lb();
+    class2.printComputers();
+
     pc2 -> broken();
 
     class1.transfer(class2, pc3);
+
+    hr();
+    class1.printComputers();
+    lb();
+    class2.printComputers();
+    hr();
     
     return 0;
 }

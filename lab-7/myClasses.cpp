@@ -2,24 +2,37 @@
 #include <vector>
 using namespace std;
 
+class CPU {};
+class Computer {};
+class SchoolClass {};
+
 class CPU {
     string cpu_name;
 public:
-    CPU() {}
-    CPU(string cname) {
-        cpu_name = cname;
+    CPU(string cpu_name = "") {
+        this -> cpu_name = cpu_name;
+    }
+    string getCpuName() {
+        return cpu_name;
     }
 };
 
 class Computer {
     CPU builtCpu;
-    string status = "Good";
+    string status;
 public:
-    Computer(string cpu_name) {
+    Computer(string cpu_name, string status = "Good") {
         builtCpu = CPU(cpu_name);
+        this -> status = status;
     }
-    void broken() {
-        status = "N/A";
+    string getCpuName() {
+        return builtCpu.getCpuName();
+    }
+    string getStatus() {
+        return status;
+    }
+    void broken(string status = "N/A") {
+        this -> status = status;
     }
 };
 
@@ -34,6 +47,26 @@ public:
         computers.push_back(pc);
     }
     void transfer(SchoolClass &destination, Computer *pc) {
+        int size = computers.size();
 
+        for(int i = 0; i < size; i++) {
+            if(computers.at(i) == pc) {
+                size = i;
+                break;
+            }
+        }
+
+        computers.erase(computers.begin() + size);
+
+        destination.addComputer(pc);
+    }
+    void printComputers() {
+        int size = computers.size();
+
+        for(int i = 0; i < size; i++) {
+            cout << classname << endl;
+            cout << "CPU: " << computers[i] -> getCpuName() << endl;
+            cout << "Status: " << computers[i] -> getStatus() << endl;
+        }
     }
 };
